@@ -2,7 +2,7 @@ import express from 'express';
 
 const app = express();
 
-app.use('/example', (req, res) => {
+app.use('/', (req, res) => {
   const message = '<h1> Hello World </h1>';
   res.send(message);
   //     res.json({
