@@ -1,6 +1,30 @@
 {
+  "name": "wallaclone-backend",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "tsx watch src/server.ts",
+    "lint": "eslint src --ext .ts",
+    "prettier": "prettier --write .",
+    "build": "tsc"
+  },
   "dependencies": {
     "express": "^5.2.1",
     "mongoose": "^9.4.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.2",
+    "@typescript-eslint/parser": "^8.58.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "globals": "^17.5.0",
+    "prettier": "^3.8.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }
