@@ -38,7 +38,7 @@ jobs:
 
       - name: Install and build frontend
         run: |
-          cd frontend
+          cd frontend/wallaclone
           npm install
           npm run build
 
