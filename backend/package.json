@@ -5,12 +5,13 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "tsx watch src/server.ts",
+    "start": "tsx watch src/bin/www.ts",
     "lint": "eslint src --ext .ts",
     "prettier": "prettier --write .",
     "build": "tsc"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.4.1"
   },
