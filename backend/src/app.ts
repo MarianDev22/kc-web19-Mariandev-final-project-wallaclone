@@ -13,7 +13,7 @@ app.use('/health', (req, res) => {
 });
 
 //Routes
-app.use('/authentication', authenticationRouter);
+app.use('/auth', authenticationRouter);
 
 //should this go in a serparte file? refactor?
 export const startHttpApi = () => {

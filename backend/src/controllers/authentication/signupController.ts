@@ -27,11 +27,12 @@ export const signupController = async (req: Request, res: Response, next: NextFu
 
     const createdUser = await newUser.save();
 
-    const newToken = securityService.generateJWT(newUser);
+    const newToken = securityService.generateJWT(createdUser._id.toString());
 
     // esta es la respuesta que tenemos que acordar con Sara de como la vamos a estructurar?
     res.status(201).json({
-      content: 'Usuario registrado correctamente',
+      content: newToken,
+      username: createdUser.username
     });
   } catch (error) {
     next(error);
