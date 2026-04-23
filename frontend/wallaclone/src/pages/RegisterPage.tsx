@@ -48,7 +48,9 @@ export default function RegisterPage() {
         if (!formData.password) {
             newErrors.password = "La contraseña es obligatoria";
         } else if (formData.password.length < 6) {
-            newErrors.password = "Mínimo 6 caracteres";
+            newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+        } else if (formData.password.length > 64) {
+            newErrors.password = "La contraseña no puede tener más de 64 caracteres";
         }
 
         if (!formData.confirmPassword) {
