@@ -31,8 +31,9 @@ export const signupController = async (req: Request, res: Response, next: NextFu
 
     // esta es la respuesta que tenemos que acordar con Sara de como la vamos a estructurar?
     res.status(201).json({
-      content: newToken,
-      username: createdUser.username
+      token: newToken,
+      username: createdUser.username,
+      message: "Usuario registrado correctamente"
     });
   } catch (error) {
     next(error);
