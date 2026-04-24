@@ -16,6 +16,7 @@ app.use('/health', (req, res) => {
 //Routes
 app.use('/auth', authenticationRouter);
 
+
 //error MW
 app.use(errorMiddleware);
 
