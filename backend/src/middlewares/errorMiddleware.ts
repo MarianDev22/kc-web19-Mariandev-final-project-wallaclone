@@ -10,7 +10,7 @@ const ErrorStatusCodes: Record<string, number> = {
 
   UnauthorizedError: status.UNAUTHORIZED, // 401
 
-  ForbiddeOperationError: status.FORBIDDEN, // 403
+  ForbiddenOperationError: status.FORBIDDEN, // 403
 };
 
 export const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
