@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { authBodyValidator } from './authBodyValidator';
 import { User } from '../../models/User';
 import { securityService } from './securityService';
+import { authSignupValidator } from './authBodyValidator';
 
 export const signupController = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, email, password } = authBodyValidator.parse(req.body);
+    const { username, email, password } = authSignupValidator.parse(req.body);
     const [existingUsername, existingEmail] = await Promise.all([
       User.findOne({ username }),
       User.findOne({ email }),
