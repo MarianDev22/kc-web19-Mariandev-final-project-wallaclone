@@ -7,3 +7,4 @@ export const authenticationRouter = express.Router();
 //Authentication
 authenticationRouter.post('/register', signupController);
 authenticationRouter.post('/login', loginController);
+authenticationRouter.post('/logout', logoutController);
