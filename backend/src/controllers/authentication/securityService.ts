@@ -26,4 +26,8 @@ export const securityService = {
 
     return isMatch;
   },
+
+  verifyJWT: () => {
+    
+  }
 };
