@@ -8,3 +8,9 @@ export const createAdBodyValidator = z.object({
   image: z.string().optional(),
   tags: z.string().array().optional(),
 });
+
+export const getAdvertsQueryValidator = z.object({
+  page: z.coerce.number().default(1),
+  limit: z.coerce.number().default(10),
+  search: z.string().min(3).optional(),
+});

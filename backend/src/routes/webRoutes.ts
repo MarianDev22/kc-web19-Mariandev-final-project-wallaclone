@@ -6,4 +6,4 @@ export const webRouter = express.Router();
 
 //Product/Ad Routes
 webRouter.post('/', [authMiddleware], createAdvertController);
-//webRouter.get('/login', getAdsController);
+webRouter.get('/login', getAdsController);
