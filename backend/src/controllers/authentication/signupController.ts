@@ -14,7 +14,7 @@ export const signupController = async (req: Request, res: Response, next: NextFu
     if (existingUsername)
       return res.status(409).json({ error: `El nombre de usuario ${username} está en uso` });
     if (existingEmail)
-      return res.status(409).json({ error: 'Ya exsite un usuario con este email' });
+      return res.status(409).json({ error: 'Ya existe un usuario con este email' });
 
     //hashear contraseña, usuario con password hasheada y guardar usuario
     const hashedPassword = await securityService.hashPassword(password);
