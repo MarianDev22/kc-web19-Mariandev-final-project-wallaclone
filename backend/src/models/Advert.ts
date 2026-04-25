@@ -10,18 +10,15 @@ export interface Advert {
   tags?: string[];
 }
 
-const userSchema = new Schema({
+const advertSchema = new Schema({
   name: {
     type: String,
-    unique: true,
   },
   description: {
     type: String,
-    unique: true,
   },
   price: {
-    type: String,
-    select: false,
+    type: Number,
   },
   isSale: {
     type: Boolean,
@@ -39,4 +36,4 @@ const userSchema = new Schema({
   },
 });
 
-export const Advert = mongoose.model('Advert', userSchema, 'adverts');
+export const Advert = mongoose.model('Advert', advertSchema, 'adverts');
