@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
 export const logoutController = async (req: Request, res: Response) => {
 
@@ -8,4 +8,3 @@ export const logoutController = async (req: Request, res: Response) => {
       message: 'La sesión se ha cerrado con éxito',
     });
 
-};
