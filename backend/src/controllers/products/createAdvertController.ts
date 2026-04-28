@@ -4,8 +4,11 @@ import { Advert } from '../../models/Advert';
 
 export const createAdvertController = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    if (!req.user) {
+      throw new UnauthorizedError('Usuario no autenticado');
+    }
     const { name, description, price, isSale, image, tags } = createAdBodyValidator.parse(req.body);
-
+    
     const newAdvert = new Advert({
       name,
       description,
@@ -13,7 +16,7 @@ export const createAdvertController = async (req: Request, res: Response, next: 
       isSale,
       image,
       tags,
-      ownerId: req.user?.id ?? '',
+      ownerId: req.user.id,
       status: 'AVAILABLE',
     });
     const createdAdvert = await newAdvert.save();
