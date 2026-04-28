@@ -2,6 +2,14 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError } from '../../errors/domainError';
 
+const getJWTSecret = () =>{
+  const JWTsecret = process.env.JWT_SECRET;
+    if (!JWTsecret) {
+      throw new Error('JWT_SECRET is required in .env file');
+    }
+    return JWTsecret
+}
+
 export const securityService = {
   hashPassword: async (clearPassword: string) => {
     const hashedPassword = await bcrypt.hash(clearPassword, 7);
@@ -10,8 +18,8 @@ export const securityService = {
   },
 
   generateJWT: (userId: string) => {
-    const secret = process.env.JWT_SECRET || 'T3mpKey';
-    const token = jwt.sign({ userId }, secret, {
+    const jwtSecret = getJWTSecret();
+    const token = jwt.sign({ userId }, jwtSecret, {
       expiresIn: '1h',
     });
     return token;
@@ -26,4 +34,17 @@ export const securityService = {
 
     return isMatch;
   },
+
+  verifyJWT: (token:string):{userId:string} => {
+    const jwtSecret = getJWTSecret();
+    try {
+      const data = jwt.verify(token, jwtSecret) as {userId:string} ;
+      return data;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'jwt.verify error';
+      throw new UnauthorizedError(`Error verifying JWT: ${errorMessage}`);
+    }
+  },
+
 };
+
