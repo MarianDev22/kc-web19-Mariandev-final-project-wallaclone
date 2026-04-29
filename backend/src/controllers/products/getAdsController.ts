@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { getAdvertsQueryValidator } from './AdvertInputValidator';
 import { QueryFilter } from 'mongoose';
 import { Advert } from '../../models/Advert';
+import { escapeRegex } from '../../utils/stringUtils';
 
 export const getAdsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -12,11 +13,11 @@ export const getAdsController = async (req: Request, res: Response, next: NextFu
     const skip = (page - 1) * limit;
 
     const searchQuery: QueryFilter<Advert> = {
-      status: { $in: ['AVAILABLE', 'RESERVED'] },
+      status: { $in: ['AVAILABLE', 'RESERVED', 'SOLD'] },
     };
 
     if (name) {
-      searchQuery.name = { $regex: name as string, $options: 'i' };
+      searchQuery.name = { $regex: escapeRegex(name), $options: 'i' };
     }
 
     if (tag) {
