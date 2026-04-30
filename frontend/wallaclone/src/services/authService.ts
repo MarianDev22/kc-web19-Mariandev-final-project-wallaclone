@@ -18,7 +18,9 @@ export async function registerUser(userData: RegisterUserData) {
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-        throw new Error(data?.message ?? "No se ha podido completar el registro");
+        throw new Error(
+            data?.message ?? data?.error ?? "No se ha podido completar el registro",
+        );
     }
 
     return data;
