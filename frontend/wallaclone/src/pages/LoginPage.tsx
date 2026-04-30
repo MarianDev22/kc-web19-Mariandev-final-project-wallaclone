@@ -3,24 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/layout/Footer";
 import { loginUser } from "../services/authService";
 
+interface LoginErrors {
+    username?: string;
+    password?: string;
+    general?: string;
+}
 export default function LoginPage() {
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState<{
-        username?: string;
-        password?: string;
-        general?: string;
-    }>({});
+    const [errors, setErrors] = useState<LoginErrors>({});
 
     const validate = () => {
-        const newErrors: {
-            username?: string;
-            password?: string;
-            general?: string;
-        } = {};
+        const newErrors: LoginErrors = {};
 
         if (!username.trim()) {
             newErrors.username = "El nombre de usuario es obligatorio";
@@ -55,14 +52,13 @@ export default function LoginPage() {
             });
 
             localStorage.setItem("token", data.token);
-
-            if (data.user) {
-                localStorage.setItem("user", JSON.stringify(data.user));
-            } else {
-                localStorage.setItem("user", username.trim());
-            }
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user ?? { username: username.trim() }),
+            );
 
             navigate("/");
+
         } catch (error) {
             setErrors({
                 general:
