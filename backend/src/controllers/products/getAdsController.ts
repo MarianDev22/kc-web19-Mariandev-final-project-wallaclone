@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { getAdvertsQueryValidator } from './AdvertInputValidator';
 import { QueryFilter } from 'mongoose';
 import { Advert } from '../../models/Advert';
 import { escapeRegex } from '../../utils/stringUtils';
+import { getAdvertsQueryValidator } from './AdvertInputValidator';
 
 export const getAdsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,8 +26,8 @@ export const getAdsController = async (req: Request, res: Response, next: NextFu
 
     if (minPrice !== undefined || maxPrice !== undefined) {
       searchQuery.price = {};
-      if (minPrice !== undefined) searchQuery.price.$gte = Number(minPrice);
-      if (maxPrice !== undefined) searchQuery.price.$lte = Number(maxPrice);
+      if (minPrice !== undefined) searchQuery.price.$gte = minPrice;
+      if (maxPrice !== undefined) searchQuery.price.$lte = maxPrice;
     }
 
     const advertList = await Advert.find(searchQuery)
