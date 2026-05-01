@@ -13,13 +13,7 @@ const paginationValidator = {
   limit: z.coerce.number().int().positive().max(100).default(10),
 };
 
-const hasValidPriceRange = ({
-  minPrice,
-  maxPrice,
-}: {
-  minPrice?: number;
-  maxPrice?: number;
-}) => {
+const hasValidPriceRange = ({ minPrice, maxPrice }: { minPrice?: number; maxPrice?: number }) => {
   return minPrice === undefined || maxPrice === undefined || minPrice <= maxPrice;
 };
 
@@ -46,3 +40,8 @@ export const getAdvertsQueryValidator = z
     error: 'El precio mínimo debe ser menor o igual que el precio máximo',
     path: ['minPrice'],
   });
+
+
+
+  
+export const updateAdValidator = createAdBodyValidator.partial();
