@@ -2,6 +2,7 @@ import express from 'express';
 import { authenticationRouter } from './routes/authenticationRoutes';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 import { webRouter } from './routes/webRoutes';
+import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
 
 export const app = express();
 app.use(express.json());
@@ -17,6 +18,9 @@ app.use('/health', (req, res) => {
 //Routes
 app.use('/auth', authenticationRouter);
 app.use('/adverts', webRouter);
+
+//Not Found 404
+app.use(notFoundMiddleware);
 
 //error MW
 app.use(errorMiddleware);
