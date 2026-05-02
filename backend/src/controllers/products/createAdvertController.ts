@@ -9,7 +9,7 @@ export const createAdvertController = async (req: Request, res: Response, next: 
       throw new UnauthorizedError('Usuario no autenticado');
     }
     const { name, description, price, isSale, image, tags } = createAdBodyValidator.parse(req.body);
-    
+
     const newAdvert = new Advert({
       name,
       description,
@@ -26,8 +26,10 @@ export const createAdvertController = async (req: Request, res: Response, next: 
     res.status(201).json({
       id: createdAdvert._id,
       name: createdAdvert.name,
+      description: createdAdvert.description,
       price: createdAdvert.price,
       isSale: createdAdvert.isSale,
+      image: createdAdvert.image,
       ownerId: createdAdvert.ownerId,
       status: createdAdvert.status,
       message: 'Anuncio creado con éxito',
