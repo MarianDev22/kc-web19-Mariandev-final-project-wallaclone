@@ -7,13 +7,11 @@ import {
 import { Advert } from '../../models/Advert';
 import { mongoIdValidator } from './AdvertInputValidator';
 
-
 export const deleteAdvertController: RequestHandler = async (req, res, next) => {
   try {
     if (!req.user) {
       throw new UnauthorizedError('Usuario no autenticado');
     }
-
 
     const { id } = mongoIdValidator.parse(req.params);
     const advert = await Advert.findById(id);

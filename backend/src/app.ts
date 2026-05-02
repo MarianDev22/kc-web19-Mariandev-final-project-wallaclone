@@ -33,7 +33,6 @@ app.use('/adverts', webRouter);
 // Ruta no encontrada
 app.use(notFoundMiddleware);
 
-
 // Middleware centralizado de errores
 app.use(errorMiddleware);
 

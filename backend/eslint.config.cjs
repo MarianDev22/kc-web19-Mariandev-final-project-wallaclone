@@ -50,7 +50,7 @@ module.exports = [
       'import/export': 'error',
 
       quotes: ['error', 'single', { avoidEscape: true }],
-      semi: ['error', 'always']
+      semi: ['error', 'always'],
     },
   },
   prettierConfig,
