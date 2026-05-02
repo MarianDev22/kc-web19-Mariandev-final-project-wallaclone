@@ -28,9 +28,11 @@ export const updateAdvertController = async (req: Request, res: Response, next: 
     res.status(200).json({
       id: updatedAdvert._id,
       name: updatedAdvert.name,
+      description: updatedAdvert.description,
       price: updatedAdvert.price,
       isSale: updatedAdvert.isSale,
       ownerId: updatedAdvert.ownerId,
+      image: updatedAdvert.image,
       status: updatedAdvert.status,
       message: 'Anuncio actualizado con éxito',
     });
