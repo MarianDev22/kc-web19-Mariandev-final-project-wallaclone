@@ -3,6 +3,7 @@ import { createAdvertController } from '../controllers/products/createAdvertCont
 import { getAdsController } from '../controllers/products/getAdsController';
 import { authMiddleware } from '../middlewares/authMiddleware';
 import { updateAdvertController } from '../controllers/products/updateAdvertController';
+import { deleteAdvertController } from '../controllers/products/deleteAdController';
 
 export const webRouter = express.Router();
 
@@ -10,4 +11,5 @@ export const webRouter = express.Router();
 webRouter.post('/', authMiddleware, createAdvertController);
 webRouter.get('/', getAdsController);
 
-webRouter.patch('/', updateAdvertController);
+webRouter.patch('/', authMiddleware, updateAdvertController);
+webRouter.delete('/:id', authMiddleware, deleteAdvertController);

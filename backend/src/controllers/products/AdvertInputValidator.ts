@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { Types } from 'mongoose';
 
 const trimmedString = z.string().trim();
 
@@ -16,6 +17,10 @@ const paginationValidator = {
 const hasValidPriceRange = ({ minPrice, maxPrice }: { minPrice?: number; maxPrice?: number }) => {
   return minPrice === undefined || maxPrice === undefined || minPrice <= maxPrice;
 };
+
+const mongoIdSchema = z.string().refine(val => Types.ObjectId.isValid(val), {
+  message: 'El ID proporcionado no tiene un formato válido',
+});
 
 export const createAdBodyValidator = z.object({
   name: trimmedString.min(2, {
@@ -41,7 +46,7 @@ export const getAdvertsQueryValidator = z
     path: ['minPrice'],
   });
 
-
-
-  
 export const updateAdValidator = createAdBodyValidator.partial();
+export const mongoIdValidator = z.object({
+  id: mongoIdSchema,
+});
