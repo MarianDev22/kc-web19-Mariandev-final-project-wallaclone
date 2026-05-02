@@ -11,5 +11,5 @@ export const webRouter = express.Router();
 webRouter.post('/', authMiddleware, createAdvertController);
 webRouter.get('/', getAdsController);
 
-webRouter.patch('/', authMiddleware, updateAdvertController);
+webRouter.patch('/:id', authMiddleware, updateAdvertController);
 webRouter.delete('/:id', authMiddleware, deleteAdvertController);
