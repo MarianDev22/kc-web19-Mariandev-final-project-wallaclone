@@ -13,7 +13,7 @@ export const contactSeller = async (advertId: string, buyerId: string, message: 
   const advert = await Advert.findById(advertId)
     .populate<{ ownerId: PopulatedOwner }>('ownerId', 'email')
     .lean();
-  if (!advert) {
+  if (!advert || advert.status === 'SOLD') {
     throw new EntityNotFoundError('anuncio', advertId);
   }
   if (!advert.ownerId) {
