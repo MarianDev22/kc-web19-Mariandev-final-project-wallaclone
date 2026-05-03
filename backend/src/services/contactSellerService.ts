@@ -10,16 +10,19 @@ interface PopulatedOwner {
 }
 
 export const contactSeller = async (advertId: string, buyerId: string, message: string) => {
-  const forSaleAdvert = await Advert.findById(advertId)
+  const advert = await Advert.findById(advertId)
     .populate<{ ownerId: PopulatedOwner }>('ownerId', 'email')
     .lean();
-  if (!forSaleAdvert) {
+  if (!advert) {
     throw new EntityNotFoundError('anuncio', advertId);
   }
-  const sellerEmail = forSaleAdvert.ownerId.email;
-  const advertName = forSaleAdvert.name;
+  if (!advert.ownerId) {
+    throw new EntityNotFoundError('vendedor', 'id_no_disponible');
+  }
+  const sellerEmail = advert.ownerId.email;
+  const advertName = advert.name;
 
-  const advertOwnerId = forSaleAdvert.ownerId._id.toString();
+  const advertOwnerId = advert.ownerId._id.toString();
   if (advertOwnerId === buyerId) {
     throw new ForbiddenOperationError('No puedes contactar con tu propio anuncio');
   }
@@ -37,5 +40,5 @@ export const contactSeller = async (advertId: string, buyerId: string, message: 
     advertName,
     message,
   });
-  return
+  return;
 };

@@ -10,10 +10,10 @@ export const contactSellerController = async (req: Request, res: Response, next:
     }
 
     const { id } = mongoIdValidator.parse(req.params);
-    const { contactMessage: message } = contactMessageValidator.parse(req.body);
+    const { message } = contactMessageValidator.parse(req.body);
     const buyerId = req.user.id;
 
-    contactSeller(id, buyerId, message);
+    await contactSeller(id, buyerId, message);
 
     res.status(200).json({
       message: 'El mensaje ha sido enviado con éxito',

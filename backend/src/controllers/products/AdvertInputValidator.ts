@@ -53,8 +53,5 @@ export const mongoIdValidator = z.object({
 });
 
 export const contactMessageValidator = z.object({
-  contactMessage: trimmedString
-    .min(10, 'El mensaje no puede estar vacío')
-    .max(500, 'El mensaje es demasiado largo')
-    .default('Hola, me interesa el artículo publicado en vuestro anuncio'),
+  message: trimmedString.min(10).max(500),
 });
