@@ -25,12 +25,14 @@ class EmailService {
     buyerUsername,
     advertName,
     message,
+    advertLink
   }: {
     sellerEmail: string;
     buyerEmail: string;
     buyerUsername: string;
     advertName: string;
     message: string;
+    advertLink:string
   }): Promise<void> {
     await this.transporter.sendMail({
       from: `"${buyerUsername} a través de Wallaclone-GitGirls" <${this.MAILTRAP_FROM}>`,
@@ -43,6 +45,7 @@ class EmailService {
       <p><strong>Anuncio:</strong> ${advertName}</p>
       <p><strong>Mensaje:</strong></p>
       <p>${message}</p>
+      <p><strong>Ver anuncio:</strong>${advertLink}</p>
       <h4><i>Para contactar con el comprador responde directamente a este correo.</h4></i>`,
       replyTo: buyerEmail,
     });

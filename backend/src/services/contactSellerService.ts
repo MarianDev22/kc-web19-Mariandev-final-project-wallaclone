@@ -33,12 +33,15 @@ export const contactSeller = async (advertId: string, buyerId: string, message: 
   }
   const { email: buyerEmail, username: buyerUsername } = buyer;
 
+  const advertLink = `${process.env.CORS_ORIGIN}/adverts/${advertId}`;
+
   await emailService.sendContactEmail({
     sellerEmail,
     buyerEmail,
     buyerUsername,
     advertName,
     message,
+    advertLink
   });
   return;
 };
