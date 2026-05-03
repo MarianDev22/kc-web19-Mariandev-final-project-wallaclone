@@ -10,7 +10,7 @@ permissions:
 
 jobs:
     backend:
-        name: Backend setup
+        name: Backend install
         runs-on: ubuntu-latest
 
         defaults:
@@ -28,8 +28,11 @@ jobs:
                   cache: npm
                   cache-dependency-path: backend/package-lock.json
 
+            - name: Install backend dependencies
+              run: npm ci
+
     frontend:
-        name: Frontend setup
+        name: Frontend install
         runs-on: ubuntu-latest
 
         defaults:
@@ -46,3 +49,6 @@ jobs:
                   node-version: 22
                   cache: npm
                   cache-dependency-path: frontend/wallaclone/package-lock.json
+
+            - name: Install frontend dependencies
+              run: npm ci
