@@ -318,16 +318,21 @@ const findOrCreateDemoUsers = async () => {
     const demoUsers = [];
 
     for (const demoUserData of demoUsersData) {
-        const existingUser = await User.findOne({ email: demoUserData.email });
-
-        if (existingUser) {
-            demoUsers.push(existingUser);
-            continue;
-        }
-
         const hashedPassword = await securityService.hashPassword(
             demoUserData.password,
         );
+
+        const existingUser = await User.findOne({ email: demoUserData.email });
+
+        if (existingUser) {
+            existingUser.username = demoUserData.username;
+            existingUser.password = hashedPassword;
+
+            await existingUser.save();
+
+            demoUsers.push(existingUser);
+            continue;
+        }
 
         const createdUser = await User.create({
             username: demoUserData.username,
