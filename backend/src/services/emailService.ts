@@ -35,7 +35,7 @@ class EmailService {
     await this.transporter.sendMail({
       from: `"${buyerUsername} a través de Wallaclone-GitGirls" <${this.MAILTRAP_FROM}>`,
       to: sellerEmail,
-      subject: `Nuevo mensaje sobre ${advertName}`,
+      subject: `Alguien se ha interesado en tu anuncio: ${advertName}`,
       text: message,
       html: `
       <h3>Has recibido un nuevo mensaje</h3> 
