@@ -36,3 +36,18 @@ export async function getLatestAdverts(): Promise<GetAdvertsResponse> {
 
     return data;
 }
+
+export async function getAdvertById(advertId: string): Promise<Advert> {
+    const response = await fetch(`${API_BASE_URL}/adverts/${advertId}`);
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+        throw new Error(
+            data?.message ?? data?.error ?? "No se ha podido cargar el anuncio",
+        );
+    }
+
+    return data;
+}
+
