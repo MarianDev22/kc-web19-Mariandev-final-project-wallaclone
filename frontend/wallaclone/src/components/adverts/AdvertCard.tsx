@@ -2,6 +2,9 @@ import type { Advert } from "../../services/advertService";
 
 type AdvertCardProps = {
     advert: Advert;
+    canDelete?: boolean;
+    isDeleting?: boolean;
+    onDelete?: (advertId: string) => void;
 };
 
 function getAdvertTypeLabel(isSale: boolean) {
@@ -22,7 +25,12 @@ function getOwnerName(owner?: Advert["owner"]) {
     return owner?.username ?? "Usuario";
 }
 
-function AdvertCard({ advert }: AdvertCardProps) {
+function AdvertCard({
+    advert,
+    canDelete = false,
+    isDeleting = false,
+    onDelete,
+}: AdvertCardProps) {
     return (
         <article className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
             <div className="h-48 bg-gray-100">
@@ -85,6 +93,17 @@ function AdvertCard({ advert }: AdvertCardProps) {
                                 #{tag}
                             </span>
                         ))}
+                        
+                        {canDelete && (
+                            <button
+                                type="button"
+                                onClick={() => onDelete?.(advert.id)}
+                                disabled={isDeleting}
+                                className="w-full rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                            >
+                                {isDeleting ? "Borrando..." : "Borrar anuncio"}
+                            </button>
+                        )}
                     </div>
                 )}
             </div>
