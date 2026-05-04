@@ -16,17 +16,11 @@ const paginationValidator = {
   limit: z.coerce.number().int().positive().max(100).default(10),
 };
 
-const hasValidPriceRange = ({
-  minPrice,
-  maxPrice,
-}: {
-  minPrice?: number;
-  maxPrice?: number;
-}) => {
+const hasValidPriceRange = ({ minPrice, maxPrice }: { minPrice?: number; maxPrice?: number }) => {
   return minPrice === undefined || maxPrice === undefined || minPrice <= maxPrice;
 };
 
-const mongoIdSchema = z.string().refine((value) => Types.ObjectId.isValid(value), {
+const mongoIdSchema = z.string().refine(value => Types.ObjectId.isValid(value), {
   error: 'El ID proporcionado no tiene un formato válido',
 });
 
@@ -57,4 +51,8 @@ export const getAdvertsQueryValidator = z
 export const updateAdValidator = createAdBodyValidator.partial();
 export const mongoIdValidator = z.object({
   id: mongoIdSchema,
+});
+
+export const contactMessageValidator = z.object({
+  message: trimmedString.min(10).max(500),
 });
