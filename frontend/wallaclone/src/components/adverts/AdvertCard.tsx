@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 import type { Advert } from "../../services/advertService";
 
 type AdvertCardProps = {
     advert: Advert;
 };
 
-function getAdvertTypeLabel(isSale: boolean) {
-    return isSale ? "Se vende" : "Se busca";
+function getAdvertTypeLabel() {
+    return "Se vende";
 }
 
 function getAdvertStatusLabel(status: Advert["status"]) {
@@ -43,8 +44,9 @@ function AdvertCard({ advert }: AdvertCardProps) {
                 <div className="flex items-start justify-between gap-3">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-wide text-[#00bba7]">
-                            {getAdvertTypeLabel(advert.isSale)}
+                            {getAdvertTypeLabel()}
                         </p>
+
                         <h2 className="mt-1 line-clamp-2 text-xl font-bold text-gray-900">
                             {advert.name}
                         </h2>
@@ -87,6 +89,13 @@ function AdvertCard({ advert }: AdvertCardProps) {
                         ))}
                     </div>
                 )}
+
+                <Link
+                    to={`/adverts/${advert.id}`}
+                    className="block w-full rounded-md border border-[#00bba7] px-4 py-2 text-center text-sm font-semibold text-[#00bba7] transition-colors hover:bg-[#00bba7] hover:text-white"
+                >
+                    Ver detalle
+                </Link>
             </div>
         </article>
     );
