@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import CreateAdvertPage from './pages/CreateAdvertPage'
+import EditAdvertPage from './pages/EditAdvertPage'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/adverts/new" element={<CreateAdvertPage />} />
+          <Route path="/adverts/:advertId/edit" element={<EditAdvertPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

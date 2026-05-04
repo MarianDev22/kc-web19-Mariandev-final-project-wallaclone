@@ -4,10 +4,6 @@ type AdvertCardProps = {
     advert: Advert;
 };
 
-function getAdvertTypeLabel(isSale: boolean) {
-    return isSale ? "Se vende" : "Se busca";
-}
-
 function getAdvertStatusLabel(status: Advert["status"]) {
     const statusLabels = {
         AVAILABLE: "Disponible",
@@ -23,6 +19,7 @@ function getOwnerName(owner?: Advert["owner"]) {
 }
 
 function AdvertCard({ advert }: AdvertCardProps) {
+
     return (
         <article className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
             <div className="h-48 bg-gray-100">
@@ -43,7 +40,7 @@ function AdvertCard({ advert }: AdvertCardProps) {
                 <div className="flex items-start justify-between gap-3">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-wide text-[#00bba7]">
-                            {getAdvertTypeLabel(advert.isSale)}
+                            Se vende
                         </p>
                         <h2 className="mt-1 line-clamp-2 text-xl font-bold text-gray-900">
                             {advert.name}
