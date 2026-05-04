@@ -23,19 +23,6 @@ type GetAdvertsResponse = {
     limit: number;
 };
 
-export type CreateAdvertData = {
-    name: string;
-    description: string;
-    price: number;
-    isSale: boolean;
-    image: string;
-    tags: string[];
-};
-
-type CreateAdvertResponse = Advert & {
-    message?: string;
-};
-
 export async function getLatestAdverts(): Promise<GetAdvertsResponse> {
     const response = await fetch(`${API_BASE_URL}/adverts?limit=12&page=1`);
 
@@ -50,29 +37,14 @@ export async function getLatestAdverts(): Promise<GetAdvertsResponse> {
     return data;
 }
 
-export async function createAdvert(
-    advertData: CreateAdvertData,
-): Promise<CreateAdvertResponse> {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-        throw new Error("Tienes que iniciar sesión para crear un anuncio");
-    }
-
-    const response = await fetch(`${API_BASE_URL}/adverts`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(advertData),
-    });
+export async function getAdvertById(advertId: string): Promise<Advert> {
+    const response = await fetch(`${API_BASE_URL}/adverts/${advertId}`);
 
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
         throw new Error(
-            data?.message ?? data?.error ?? "No se ha podido crear el anuncio",
+            data?.message ?? data?.error ?? "No se ha podido cargar el anuncio",
         );
     }
 
