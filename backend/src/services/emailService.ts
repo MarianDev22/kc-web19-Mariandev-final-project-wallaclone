@@ -36,15 +36,19 @@ class EmailService {
       from: `"${buyerUsername} a través de Wallaclone-GitGirls" <${this.mailFrom}>`,
       to: sellerEmail,
       subject: `Alguien se ha interesado en tu anuncio: ${advertName}`,
-      text: message,
-      html: `
-        <h3>Has recibido un nuevo mensaje</h3>
-        <p><strong>Usuario:</strong> ${buyerUsername}</p>
-        <p><strong>Anuncio:</strong> ${advertName}</p>
-        <p><strong>Mensaje:</strong></p>
-        <p>${message}</p>
-        <p><strong>Ver anuncio:</strong> ${advertLink}</p>
-        <h4><i>Para contactar con el comprador responde directamente a este correo.</i></h4>
+      text: `
+      Has recibido un nuevo mensaje en Wallaclone.
+
+      Usuario: ${buyerUsername}
+      Anuncio: ${advertName}
+
+      Mensaje:
+      ${message}
+
+      Ver anuncio:
+      ${advertLink}
+
+      Para contactar con el comprador responde directamente a este correo.
       `,
       replyTo: buyerEmail,
     });

@@ -34,7 +34,13 @@ export const contactSeller = async (advertId: string, buyerId: string, message: 
     throw new EntityNotFoundError('usuario', buyerId);
   }
 
-  const advertLink = `${process.env.CORS_ORIGIN}/adverts/${advertId}`;
+  const frontendUrl = (
+    process.env.FRONTEND_URL ??
+    process.env.CORS_ORIGIN ??
+    'http://localhost:5173'
+  ).replace(/\/$/, '');
+
+  const advertLink = `${frontendUrl}/adverts/${advertId}`;
 
   await emailService.sendContactEmail({
     sellerEmail: advert.ownerId.email,
