@@ -74,3 +74,20 @@ export async function loginUser(userData: LoginUserData): Promise<LoginResponse>
 
     return data;
 }
+
+export async function logoutUser(token: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+        throw new Error(
+            data?.message ?? data?.error ?? "No se ha podido cerrar la sesión",
+        );
+    }
+}
