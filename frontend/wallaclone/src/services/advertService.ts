@@ -37,6 +37,7 @@ export type GetAdvertsParams = {
     minPrice?: string;
     maxPrice?: string;
     tag?: string;
+    username?: string;
     page?: number;
     limit?: number;
 };
@@ -62,6 +63,10 @@ function buildAdvertsQuery(params: GetAdvertsParams = {}) {
     if (params.tag?.trim()) {
         searchParams.set("tag", params.tag.trim());
     }
+
+    if (params.username?.trim()) {
+    searchParams.set("username", params.username.trim());
+}
 
     return searchParams.toString();
 }

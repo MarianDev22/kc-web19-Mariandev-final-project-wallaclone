@@ -1,10 +1,13 @@
-import { useEffect, useState, type SyntheticEvent } from "react";
+import { useCallback, useEffect, useState, type SyntheticEvent } from "react";
 import AdvertCard from "../components/adverts/AdvertCard";
+import Pagination from "../components/Pagination";
 import {
     getAdverts,
     type Advert,
     type GetAdvertsParams,
 } from "../services/advertService";
+
+const ADVERTS_PER_PAGE = 12;
 
 function HomePage() {
     const [adverts, setAdverts] = useState<Advert[]>([]);
@@ -15,36 +18,53 @@ function HomePage() {
     const [maxPrice, setMaxPrice] = useState("");
     const [tag, setTag] = useState("");
     const [hasActiveSearch, setHasActiveSearch] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalAdverts, setTotalAdverts] = useState(0);
+    const [searchParams, setSearchParams] = useState<GetAdvertsParams>({});
 
-    async function loadAdverts(params: GetAdvertsParams = {}) {
-        try {
-            setIsLoading(true);
-            setErrorMessage("");
+    const totalPages = Math.ceil(totalAdverts / ADVERTS_PER_PAGE);
 
-            const data = await getAdverts({
-                ...params,
-                limit: 12,
-                page: 1,
-            });
+    const loadAdverts = useCallback(
+        async (params: GetAdvertsParams = {}, pageToLoad = 1) => {
+            try {
+                setIsLoading(true);
+                setErrorMessage("");
 
-            setAdverts(data.content);
-        } catch (error) {
-            setErrorMessage(
-                error instanceof Error
-                    ? error.message
-                    : "No se han podido cargar los anuncios",
-            );
-        } finally {
-            setIsLoading(false);
-        }
-    }
+                const data = await getAdverts({
+                    ...params,
+                    limit: ADVERTS_PER_PAGE,
+                    page: pageToLoad,
+                });
+
+                setAdverts(data.content);
+                setTotalAdverts(data.total);
+                setCurrentPage(data.page);
+            } catch (error) {
+                setErrorMessage(
+                    error instanceof Error
+                        ? error.message
+                        : "No se han podido cargar los anuncios",
+                );
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        [],
+    );
 
     useEffect(() => {
         void loadAdverts();
-    }, []);
+    }, [loadAdverts]);
 
     function handleSearchSubmit(event: SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        const params: GetAdvertsParams = {
+            name: searchName,
+            minPrice,
+            maxPrice,
+            tag,
+        };
 
         const hasSearch =
             searchName.trim() ||
@@ -52,14 +72,10 @@ function HomePage() {
             maxPrice.trim() ||
             tag.trim();
 
+        setSearchParams(params);
         setHasActiveSearch(Boolean(hasSearch));
 
-        void loadAdverts({
-            name: searchName,
-            minPrice,
-            maxPrice,
-            tag,
-        });
+        void loadAdverts(params, 1);
     }
 
     function handleClearSearch() {
@@ -68,8 +84,9 @@ function HomePage() {
         setMaxPrice("");
         setTag("");
         setHasActiveSearch(false);
+        setSearchParams({});
 
-        void loadAdverts();
+        void loadAdverts({}, 1);
     }
 
     return (
@@ -210,11 +227,22 @@ function HomePage() {
                 )}
 
                 {!isLoading && !errorMessage && adverts.length > 0 && (
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {adverts.map((advert) => (
-                            <AdvertCard key={advert.id} advert={advert} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {adverts.map((advert) => (
+                                <AdvertCard key={advert.id} advert={advert} />
+                            ))}
+                        </div>
+
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            isLoading={isLoading}
+                            onPageChange={(page) =>
+                                void loadAdverts(searchParams, page)
+                            }
+                        />
+                    </>
                 )}
             </div>
         </section>
