@@ -39,10 +39,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "Google Pixel 6a blanco 128GB",
-        "description": "Cámara muy nítida y batería correcta. Lleva protector puesto y cargador compatible, con pequeño golpe en el marco inferior.",
+        "name": "Busco Google Pixel 6a blanco 128GB",
+        "description": "Busco comprar un Google Pixel 6a en color blanco. Imprescindible que la pantalla esté perfecta. Pago hasta 230€ según estado.",
         "price": 230,
-        "isSale": true,
+        "isSale": false,
         "tags": [
             "movil",
             "pixel",
@@ -91,10 +91,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "PC sobremesa compacto i5 con 16GB RAM",
-        "description": "Equipo de oficina con SSD de 480GB, Windows instalado y WiFi USB. No incluye monitor ni teclado.",
+        "name": "Busco PC sobremesa compacto i5 con 16GB RAM",
+        "description": "Necesito un equipo de oficina compacto con al menos 16GB de RAM y SSD. Presupuesto máximo de 260€.",
         "price": 260,
-        "isSale": true,
+        "isSale": false,
         "tags": [
             "ordenador",
             "pc",
@@ -221,10 +221,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "Mando inalámbrico para Xbox negro",
-        "description": "Botones firmes, sticks sin deriva apreciable y tapa de pilas correcta. No incluyo cable ni pilas.",
-        "price": 34,
-        "isSale": true,
+        "name": "Busco mando inalámbrico para Xbox negro",
+        "description": "Busco un mando de Xbox que funcione perfectamente, sin drift en los sticks. Pago unos 30€.",
+        "price": 30,
+        "isSale": false,
         "tags": [
             "mando",
             "xbox",
@@ -299,10 +299,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "Lámpara de pie arco negra",
-        "description": "Metal negro mate, altura regulable y pantalla redonda. Queda bien en salón, incluye bombilla cálida.",
-        "price": 42,
-        "isSale": true,
+        "name": "Busco lámpara de pie arco negra",
+        "description": "Necesito una lámpara de pie en forma de arco de color negro para el salón. Busco algo por unos 40€.",
+        "price": 40,
+        "isSale": false,
         "tags": [
             "lampara",
             "decoracion",
@@ -481,10 +481,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "Rodillo de entrenamiento para bicicleta",
-        "description": "Compatible con ruedas de 26 a 29 pulgadas. Incluye eje adaptador y tiene resistencia regulable con mando.",
+        "name": "Compro rodillo de entrenamiento para bicicleta",
+        "description": "Busco un rodillo compatible con ruedas de 29 pulgadas, preferiblemente magnético y que incluya mando de resistencia.",
         "price": 70,
-        "isSale": true,
+        "isSale": false,
         "tags": [
             "bicicleta",
             "deporte",
@@ -585,10 +585,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "Casa de muñecas de madera pequeña",
-        "description": "Tiene dos plantas, muebles básicos y colores suaves. Recomendable desde 3 años, con un desconchón en el tejado.",
-        "price": 42,
-        "isSale": true,
+        "name": "Busco casa de muñecas de madera pequeña",
+        "description": "Quiero comprar una casita de madera pequeña para regalo. Valoro que tenga muebles incluidos. Presupuesto 40€.",
+        "price": 40,
+        "isSale": false,
         "tags": [
             "juguetes",
             "munecas",
@@ -689,10 +689,10 @@
         "status": "AVAILABLE"
     },
     {
-        "name": "Sierra de calar 600W con hojas",
-        "description": "Incluye hojas para madera y guía lateral. Corta bien tableros finos, la base tiene marcas de apoyo.",
-        "price": 37,
-        "isSale": true,
+        "name": "Necesito sierra de calar 600W",
+        "description": "Compro sierra de calar eléctrica que funcione bien. Ideal si incluye hojas de corte para madera.",
+        "price": 35,
+        "isSale": false,
         "tags": [
             "herramientas",
             "sierra",
