@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import * as z from 'zod';
+import { AdvertStatus } from '../../models/Advert';
 
 const trimmedString = z.string().trim();
 
@@ -56,4 +57,10 @@ export const mongoIdValidator = z.object({
 
 export const contactMessageValidator = z.object({
   message: trimmedString.min(10).max(500),
+});
+
+export const updateAdvertStatusValidator = z.object({
+  status: z.enum(AdvertStatus, {
+    error: 'El estado del anuncio no es válido',
+  }),
 });
