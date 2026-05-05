@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAdvertById, type Advert } from "../services/advertService";
 import { contactSeller } from "../services/contactSellerService";
@@ -71,7 +71,7 @@ function AdvertDetailPage() {
     useEffect(() => {
         async function loadAdvert() {
             if (!advertId) {
-                setErrorMessage("No se ha podido identificar el anuncio");
+                setErrorMessage("No hemos podido encontrar este anuncio");
                 setIsLoading(false);
                 return;
             }
@@ -83,7 +83,7 @@ function AdvertDetailPage() {
                 setErrorMessage(
                     error instanceof Error
                         ? error.message
-                        : "No se ha podido cargar el anuncio",
+                        : "No hemos podido cargar este anuncio. Inténtalo de nuevo",
                 );
             } finally {
                 setIsLoading(false);
@@ -130,6 +130,24 @@ function AdvertDetailPage() {
         isAuthenticated && !canManageAdvert && !isSoldAdvert,
     );
 
+    const advertTypeLabel = advert.isSale ? "Se vende" : "Se busca";
+
+    const contactTitle = advert.isSale
+        ? "Hablar con el vendedor"
+        : "Hablar con la persona que busca";
+
+    const soldContactText = advert.isSale
+        ? "Este artículo está vendido, así que no puedes contactar con el vendedor"
+        : "Este anuncio ya está cerrado, así que no puedes contactar con la persona que busca.";
+
+    const loginContactText = advert.isSale
+        ? "Inicia sesión para poder hablar con el vendedor de este artículo"
+        : "Inicia sesión para poder hablar con la persona que busca este artículo.";
+
+    const contactPlaceholder = advert.isSale
+        ? "Hola, me interesa este artículo. ¿Sigue disponible?"
+        : "Hola, creo que tengo algo que puede encajar contigo. ¿Te interesa?";
+
     async function handleDeleteAdvert() {
         if (!advert) {
             return;
@@ -152,16 +170,16 @@ function AdvertDetailPage() {
             setErrorMessage(
                 error instanceof Error
                     ? error.message
-                    : "No se ha podido eliminar el anuncio",
+                    : "No hemos podido eliminar el anuncio",
             );
         }
     }
 
-    async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleContactSubmit(event: SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
 
         if (!advert) {
-            setContactErrorMessage("No se ha podido identificar el anuncio");
+            setContactErrorMessage("No hemos podido identificar este anuncio");
             setContactSuccessMessage("");
             return;
         }
@@ -176,7 +194,7 @@ function AdvertDetailPage() {
         }
 
         if (!authToken) {
-            setContactErrorMessage("Debes iniciar sesión para contactar con el vendedor");
+            setContactErrorMessage("Debes iniciar sesión para enviar el mensaje");
             setContactSuccessMessage("");
             return;
         }
@@ -233,7 +251,7 @@ function AdvertDetailPage() {
                             <div className="flex items-start justify-between gap-4">
                                 <div>
                                     <p className="text-xs font-semibold uppercase tracking-wide text-[#00bba7]">
-                                        Se vende
+                                        {advertTypeLabel}
                                     </p>
 
                                     <h1 className="mt-2 text-3xl font-bold text-gray-900">
@@ -246,7 +264,7 @@ function AdvertDetailPage() {
                                 </span>
                             </div>
 
-                            <p className="text-4xl font-bold text-gray-900">
+                            <p className="text-4xl foºnt-bold text-gray-900">
                                 {new Intl.NumberFormat("es-ES", {
                                     style: "currency",
                                     currency: "EUR",
@@ -293,19 +311,18 @@ function AdvertDetailPage() {
                             {!canManageAdvert && (
                                 <div className="border-t border-gray-100 pt-6">
                                     <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-                                        Contactar con el vendedor
+                                        {contactTitle}
                                     </h2>
 
                                     {isSoldAdvert && (
                                         <p className="mt-3 rounded-md bg-gray-50 p-4 text-sm text-gray-600">
-                                            Este anuncio ya está vendido, por lo que no se puede contactar
-                                            con el vendedor.
+                                            {soldContactText}
                                         </p>
                                     )}
 
                                     {!isSoldAdvert && !isAuthenticated && (
                                         <div className="mt-3 rounded-md bg-gray-50 p-4 text-sm text-gray-700">
-                                            <p>Inicia sesión para contactar con el vendedor de este anuncio.</p>
+                                            <p>{loginContactText}</p>
 
                                             <Link
                                                 to="/login"
@@ -333,7 +350,7 @@ function AdvertDetailPage() {
                                                     rows={5}
                                                     disabled={isContactLoading}
                                                     className="mt-2 w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-[#00bba7] disabled:cursor-not-allowed disabled:bg-gray-100"
-                                                    placeholder="Hola, me interesa este anuncio. ¿Sigue disponible?"
+                                                    placeholder={contactPlaceholder}
                                                 />
                                             </div>
 
