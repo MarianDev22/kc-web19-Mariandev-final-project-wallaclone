@@ -45,8 +45,8 @@ function AdvertCard({ advert }: AdvertCardProps) {
                     <div className="flex items-start justify-between gap-3">
                         <div>
                             <p className="text-xs font-semibold uppercase tracking-wide text-[#00bba7]">
-                                Se vende
-                            </p>
+    {advert.isSale ? "Se vende" : "Se busca"}
+</p>
 
                             <h2 className="mt-1 line-clamp-2 text-xl font-bold text-gray-900">
                                 {advert.name}

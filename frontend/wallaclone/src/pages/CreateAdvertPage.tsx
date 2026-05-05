@@ -19,6 +19,7 @@ function CreateAdvertPage() {
     const [price, setPrice] = useState("");
     const [image, setImage] = useState("");
     const [tags, setTags] = useState("");
+    const [isSale, setIsSale] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState<CreateAdvertErrors>({});
 
@@ -94,7 +95,7 @@ function CreateAdvertPage() {
                 name: name.trim(),
                 description: description.trim(),
                 price: Number(price),
-                isSale: true,
+                isSale,
                 image: image.trim(),
                 tags: getParsedTags(),
             });
@@ -128,7 +129,7 @@ function CreateAdvertPage() {
                     </h1>
 
                     <p className="mt-2 text-base text-gray-600">
-                        Publica un artículo para vender
+                        Publica un anuncio de venta o búsqueda
                     </p>
                 </div>
 
@@ -210,11 +211,57 @@ function CreateAdvertPage() {
                     </div>
 
                     <div className="mb-5">
+                        <span className="mb-2 block text-sm font-medium text-gray-700">
+                            Tipo de anuncio
+                        </span>
+
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <label
+                                className={`cursor-pointer rounded-xl border p-4 text-sm transition-colors ${isSale
+                                        ? "border-[#00bba7] bg-[#00bba7]/10 text-[#007f75]"
+                                        : "border-gray-300 bg-white text-gray-700 hover:border-[#00bba7]"
+                                    }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="advertType"
+                                    checked={isSale}
+                                    onChange={() => setIsSale(true)}
+                                    className="sr-only"
+                                />
+                                <span className="block font-semibold">Se vende</span>
+                                <span className="mt-1 block text-xs text-gray-500">
+                                    Quiero vender este artículo
+                                </span>
+                            </label>
+
+                            <label
+                                className={`cursor-pointer rounded-xl border p-4 text-sm transition-colors ${!isSale
+                                        ? "border-[#00bba7] bg-[#00bba7]/10 text-[#007f75]"
+                                        : "border-gray-300 bg-white text-gray-700 hover:border-[#00bba7]"
+                                    }`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="advertType"
+                                    checked={!isSale}
+                                    onChange={() => setIsSale(false)}
+                                    className="sr-only"
+                                />
+                                <span className="block font-semibold">Se busca</span>
+                                <span className="mt-1 block text-xs text-gray-500">
+                                    Estoy buscando este artículo
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="mb-5">
                         <label
                             htmlFor="price"
                             className="mb-1 block text-sm font-medium text-gray-700"
                         >
-                            Precio de venta
+                            Precio
                         </label>
                         <input
                             id="price"
