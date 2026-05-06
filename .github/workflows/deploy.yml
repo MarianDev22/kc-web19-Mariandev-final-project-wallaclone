@@ -76,6 +76,8 @@ jobs:
           node-version: 22
 
       - name: Install and build frontend
+        env:
+          VITE_API_BASE_URL: https://wallaclone.gitgirlskcweb19.duckdns.org/api
         run: |
           cd frontend
           npm install
