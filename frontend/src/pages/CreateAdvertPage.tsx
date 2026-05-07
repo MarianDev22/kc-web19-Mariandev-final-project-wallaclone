@@ -1,6 +1,7 @@
 import { useEffect, useState, type SyntheticEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createAdvert } from "../services/advertService";
+import { uploadAdvertImage } from "../services/imageUploadService";
 
 type CreateAdvertErrors = {
     name?: string;
@@ -21,6 +22,8 @@ function CreateAdvertPage() {
     const [tags, setTags] = useState("");
     const [isSale, setIsSale] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
+    const [selectedImageName, setSelectedImageName] = useState("");
     const [errors, setErrors] = useState<CreateAdvertErrors>({});
 
     useEffect(() => {
@@ -78,6 +81,42 @@ function CreateAdvertPage() {
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
+    };
+
+    const handleImageFileChange = async (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const file = event.target.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        try {
+            setIsUploadingImage(true);
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                image: undefined,
+                general: undefined,
+            }));
+
+            const uploadedImageUrl = await uploadAdvertImage(file);
+
+            setImage(uploadedImageUrl);
+            setSelectedImageName(file.name);
+        } catch (error) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                image:
+                    error instanceof Error
+                        ? error.message
+                        : "No se ha podido subir la imagen",
+            }));
+
+            setSelectedImageName("");
+        } finally {
+            setIsUploadingImage(false);
+        }
     };
 
     const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
@@ -218,8 +257,8 @@ function CreateAdvertPage() {
                         <div className="grid gap-3 sm:grid-cols-2">
                             <label
                                 className={`cursor-pointer rounded-xl border p-4 text-sm transition-colors ${isSale
-                                        ? "border-[#00bba7] bg-[#00bba7]/10 text-[#007f75]"
-                                        : "border-gray-300 bg-white text-gray-700 hover:border-[#00bba7]"
+                                    ? "border-[#00bba7] bg-[#00bba7]/10 text-[#007f75]"
+                                    : "border-gray-300 bg-white text-gray-700 hover:border-[#00bba7]"
                                     }`}
                             >
                                 <input
@@ -237,8 +276,8 @@ function CreateAdvertPage() {
 
                             <label
                                 className={`cursor-pointer rounded-xl border p-4 text-sm transition-colors ${!isSale
-                                        ? "border-[#00bba7] bg-[#00bba7]/10 text-[#007f75]"
-                                        : "border-gray-300 bg-white text-gray-700 hover:border-[#00bba7]"
+                                    ? "border-[#00bba7] bg-[#00bba7]/10 text-[#007f75]"
+                                    : "border-gray-300 bg-white text-gray-700 hover:border-[#00bba7]"
                                     }`}
                             >
                                 <input
@@ -287,28 +326,73 @@ function CreateAdvertPage() {
                     </div>
 
                     <div className="mb-5">
-                        <label
-                            htmlFor="image"
-                            className="mb-1 block text-sm font-medium text-gray-700"
-                        >
-                            URL de la imagen
-                        </label>
-                        <input
-                            id="image"
-                            type="url"
-                            value={image}
-                            onChange={(event) => {
-                                setImage(event.target.value);
-                                setErrors((prevErrors) => ({
-                                    ...prevErrors,
-                                    image: undefined,
-                                    general: undefined,
-                                }));
-                            }}
-                            className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00bba7] ${errors.image ? "border-red-500" : "border-gray-300"
-                                }`}
-                            placeholder="https://picsum.photos/seed/mi-anuncio/800/600"
-                        />
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700">
+                                Imagen del anuncio
+                            </label>
+
+                            <div className="mt-2 space-y-3">
+                                <input
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp"
+                                    onChange={handleImageFileChange}
+                                    disabled={isLoading || isUploadingImage}
+                                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-[#00bba7] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#009689] disabled:cursor-not-allowed disabled:bg-gray-100"
+                                />
+
+                                {isUploadingImage && (
+                                    <p className="text-sm text-gray-600">Subiendo imagen...</p>
+                                )}
+
+                                {selectedImageName && !isUploadingImage && (
+                                    <p className="text-sm text-green-700">
+                                        Imagen subida: {selectedImageName}
+                                    </p>
+                                )}
+
+                                <div>
+                                    <label
+                                        htmlFor="image"
+                                        className="block text-sm font-semibold text-gray-700"
+                                    >
+                                        O pega una URL de imagen
+                                    </label>
+
+                                    <input
+                                        id="image"
+                                        type="url"
+                                        value={image}
+                                        onChange={(event) => {
+                                            setImage(event.target.value);
+                                            setSelectedImageName("");
+                                            setErrors((prevErrors) => ({
+                                                ...prevErrors,
+                                                image: undefined,
+                                                general: undefined,
+                                            }));
+                                        }}
+                                        disabled={isLoading || isUploadingImage}
+                                        className={`mt-2 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00bba7] disabled:cursor-not-allowed disabled:bg-gray-100 ${errors.image ? "border-red-500" : "border-gray-300"
+                                            }`}
+                                        placeholder="https://res.cloudinary.com/..."
+                                    />
+                                </div>
+
+                                {image && !errors.image && (
+                                    <div className="overflow-hidden rounded-md border border-gray-200">
+                                        <img
+                                            src={image}
+                                            alt="Vista previa del anuncio"
+                                            className="h-48 w-full object-cover"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
+                            {errors.image && (
+                                <p className="mt-2 text-sm text-red-600">{errors.image}</p>
+                            )}
+                        </div>
                         {errors.image && (
                             <p className="mt-1 text-xs text-red-500">{errors.image}</p>
                         )}
@@ -348,10 +432,14 @@ function CreateAdvertPage() {
 
                     <button
                         type="submit"
-                        disabled={isLoading}
-                        className="w-full rounded-md bg-[#00bba7] py-2 text-sm font-semibold text-white transition-colors hover:bg-[#009689] disabled:cursor-not-allowed disabled:bg-gray-300"
+                        disabled={isLoading || isUploadingImage}
+                        className="w-full rounded-md bg-[#00bba7] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#009689] disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                        {isLoading ? "Creando anuncio..." : "Crear anuncio"}
+                        {isUploadingImage
+                            ? "Subiendo imagen..."
+                            : isLoading
+                                ? "Creando anuncio..."
+                                : "Crear anuncio"}
                     </button>
                 </form>
             </div>
