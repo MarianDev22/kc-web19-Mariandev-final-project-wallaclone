@@ -89,6 +89,39 @@ export async function getAdverts(
     return data;
 }
 
+export type GetMyAdvertsParams = Pick<GetAdvertsParams, "page" | "limit">;
+
+export async function getMyAdverts(
+    params: GetMyAdvertsParams = {},
+): Promise<GetAdvertsResponse> {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("No se ha podido validar la sesión");
+    }
+
+    const query = buildAdvertsQuery({
+        page: params.page,
+        limit: params.limit,
+    });
+
+    const response = await fetch(`${API_BASE_URL}/adverts/me?${query}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+        throw new Error(
+            data?.message ?? data?.error ?? "No se han podido cargar tus anuncios",
+        );
+    }
+
+    return data;
+}
+
 export async function getLatestAdverts(): Promise<GetAdvertsResponse> {
     return getAdverts({
         limit: 12,
