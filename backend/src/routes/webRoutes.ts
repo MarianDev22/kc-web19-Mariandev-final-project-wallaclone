@@ -3,6 +3,7 @@ import { createAdvertController } from '../controllers/products/createAdvertCont
 import { deleteAdvertController } from '../controllers/products/deleteAdController';
 import { getAdsController } from '../controllers/products/getAdsController';
 import { getAdvertByIdController } from '../controllers/products/getAdvertByIdController';
+import { getMyAdvertsController } from '../controllers/products/getMyAdvertsController';
 import { updateAdvertController } from '../controllers/products/updateAdvertController';
 import { updateAdvertStatusController } from '../controllers/products/updateAdvertStatusController';
 import { contactSellerController } from '../controllers/products/contactSellerController';
@@ -13,6 +14,7 @@ export const webRouter = express.Router();
 // Product/Ad Routes
 webRouter.post('/', authMiddleware, createAdvertController);
 webRouter.get('/', getAdsController);
+webRouter.get('/me', authMiddleware, getMyAdvertsController);
 webRouter.get('/:id', getAdvertByIdController);
 webRouter.patch('/:id/status', authMiddleware, updateAdvertStatusController);
 webRouter.patch('/:id', authMiddleware, updateAdvertController);
