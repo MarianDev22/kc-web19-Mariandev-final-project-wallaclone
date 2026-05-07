@@ -80,7 +80,7 @@ jobs:
           VITE_API_BASE_URL: https://wallaclone.gitgirlskcweb19.duckdns.org/api
         run: |
           cd frontend
-          npm install
+          npm ci
           npm run build
 
       - name: Upload dist to server
