@@ -7,6 +7,7 @@ import CreateAdvertPage from "./pages/CreateAdvertPage";
 import AdvertDetailPage from "./pages/AdvertDetailPage";
 import EditAdvertPage from "./pages/EditAdvertPage";
 import MemberAdvertsPage from "./pages/MemberAdvertsPage";
+import MyAdvertsPage from "./pages/MyAdvertsPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/adverts/new" element={<CreateAdvertPage />} />
           <Route path="/adverts/:advertId" element={<AdvertDetailPage />} />
           <Route path="/adverts/:advertId/edit" element={<EditAdvertPage />} />
+          <Route path="/my-adverts" element={<MyAdvertsPage />} />
           <Route path="/:username" element={<MemberAdvertsPage />} />
         </Route>
       </Routes>
