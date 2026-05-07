@@ -45,6 +45,13 @@ function Header() {
                                 Crear anuncio
                             </Link>
 
+                            <Link
+                                to="/account"
+                                className="rounded-md bg-[#00bba7] px-4 py-2 text-white hover:bg-[#009689]"
+                            >
+                                Mi cuenta
+                            </Link>
+
                             <button
                                 type="button"
                                 onClick={handleLogout}
