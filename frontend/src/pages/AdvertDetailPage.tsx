@@ -112,13 +112,6 @@ function AdvertDetailPage() {
             <section className="min-h-full bg-gray-50 px-6 py-8">
                 <div className="mx-auto max-w-5xl rounded-2xl border border-red-200 bg-red-50 p-8 text-center text-red-700">
                     <p>{errorMessage || "No se ha podido cargar el anuncio"}</p>
-
-                    <Link
-                        to="/"
-                        className="mt-4 inline-block rounded-md bg-[#00bba7] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#009689]"
-                    >
-                        Volver a anuncios
-                    </Link>
                 </div>
             </section>
         );
