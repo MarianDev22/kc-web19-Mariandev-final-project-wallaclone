@@ -11,7 +11,7 @@ type LoginUserData = {
     password: string;
 };
 
-type AuthUser = {
+export type AuthUser = {
     id?: string;
     username: string;
     email?: string;
@@ -27,6 +27,18 @@ type LoginResponse = {
     message?: string;
     token: string;
     user?: AuthUser;
+};
+
+export type UpdateUserPayload = {
+    username?: string;
+    email?: string;
+    currentPassword?: string;
+    newPassword?: string;
+};
+
+type UpdateUserResponse = {
+    message: string;
+    user: AuthUser;
 };
 
 export async function registerUser(
@@ -70,6 +82,52 @@ export async function loginUser(userData: LoginUserData): Promise<LoginResponse>
 
     if (!data?.token) {
         throw new Error("La respuesta de login no incluye token");
+    }
+
+    return data;
+}
+
+export async function logoutUser(token: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+        throw new Error(
+            data?.message ?? data?.error ?? "No se ha podido cerrar la sesión",
+        );
+    }
+}
+
+export async function updateUser(
+    userData: UpdateUserPayload,
+): Promise<UpdateUserResponse> {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("No se ha podido validar la sesión");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+        throw new Error(
+            data?.message ?? data?.error ?? "No se han podido actualizar tus datos",
+        );
     }
 
     return data;

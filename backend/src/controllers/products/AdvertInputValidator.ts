@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import * as z from 'zod';
+import { AdvertStatus } from '../../models/Advert';
 
 const trimmedString = z.string().trim();
 
@@ -16,17 +17,11 @@ const paginationValidator = {
   limit: z.coerce.number().int().positive().max(100).default(10),
 };
 
-const hasValidPriceRange = ({
-  minPrice,
-  maxPrice,
-}: {
-  minPrice?: number;
-  maxPrice?: number;
-}) => {
+const hasValidPriceRange = ({ minPrice, maxPrice }: { minPrice?: number; maxPrice?: number }) => {
   return minPrice === undefined || maxPrice === undefined || minPrice <= maxPrice;
 };
 
-const mongoIdSchema = z.string().refine((value) => Types.ObjectId.isValid(value), {
+const mongoIdSchema = z.string().refine(value => Types.ObjectId.isValid(value), {
   error: 'El ID proporcionado no tiene un formato válido',
 });
 
@@ -47,6 +42,7 @@ export const getAdvertsQueryValidator = z
     minPrice: nonNegativeNumber.optional(),
     maxPrice: nonNegativeNumber.optional(),
     tag: trimmedString.min(1).optional(),
+    username: trimmedString.min(1).optional(),
     ...paginationValidator,
   })
   .refine(hasValidPriceRange, {
@@ -54,6 +50,17 @@ export const getAdvertsQueryValidator = z
     path: ['minPrice'],
   });
 
+export const updateAdValidator = createAdBodyValidator.partial();
 export const mongoIdValidator = z.object({
   id: mongoIdSchema,
+});
+
+export const contactMessageValidator = z.object({
+  message: trimmedString.min(10).max(500),
+});
+
+export const updateAdvertStatusValidator = z.object({
+  status: z.enum(AdvertStatus, {
+    error: 'El estado del anuncio no es válido',
+  }),
 });
