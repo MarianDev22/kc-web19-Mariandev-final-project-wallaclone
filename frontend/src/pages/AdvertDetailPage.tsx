@@ -112,13 +112,6 @@ function AdvertDetailPage() {
             <section className="min-h-full bg-gray-50 px-6 py-8">
                 <div className="mx-auto max-w-5xl rounded-2xl border border-red-200 bg-red-50 p-8 text-center text-red-700">
                     <p>{errorMessage || "No se ha podido cargar el anuncio"}</p>
-
-                    <Link
-                        to="/"
-                        className="mt-4 inline-block rounded-md bg-[#00bba7] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#009689]"
-                    >
-                        Volver a anuncios
-                    </Link>
                 </div>
             </section>
         );
@@ -163,6 +156,19 @@ function AdvertDetailPage() {
     const contactPlaceholder = advert.isSale
         ? "Hola, me interesa este artículo. ¿Sigue disponible?"
         : "Hola, creo que tengo algo que puede encajar contigo. ¿Te interesa?";
+
+    const advertShareText = `Mira este anuncio en Wallaclone: ${advert.name}`;
+    const encodedAdvertShareText = encodeURIComponent(advertShareText);
+    const encodedAdvertShareUrl = encodeURIComponent(window.location.href);
+
+    const twitterShareUrl =
+        "https://twitter.com/intent/tweet" +
+        `?text=${encodedAdvertShareText}` +
+        `&url=${encodedAdvertShareUrl}`;
+    const facebookShareUrl =
+        "https://www.facebook.com/sharer/sharer.php" +
+        `?u=${encodedAdvertShareUrl}` +
+        `&quote=${encodedAdvertShareText}`;
 
     async function handleDeleteAdvert() {
         if (!advert) {
@@ -354,6 +360,32 @@ function AdvertDetailPage() {
                                     </div>
                                 </div>
                             )}
+
+                            <div className="border-t border-gray-100 pt-6">
+                                <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                                    Compartir anuncio
+                                </h2>
+
+                                <div className="mt-3 flex flex-wrap gap-3">
+                                    <a
+                                        href={twitterShareUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="rounded-md bg-black px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
+                                    >
+                                        Compartir en X
+                                    </a>
+
+                                    <a
+                                        href={facebookShareUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+                                    >
+                                        Compartir en Facebook
+                                    </a>
+                                </div>
+                            </div>
 
                             {!canManageAdvert && (
                                 <div className="border-t border-gray-100 pt-6">

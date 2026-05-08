@@ -1,41 +1,23 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-
-import { logoutUser } from '../../services/authService'
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
-    const navigate = useNavigate()
-    const [token, setToken] = useState(() => localStorage.getItem("token"))
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
 
-    const handleLogout = async () => {
-        if (!token) {
-            return
-        }
-
-        try {
-            await logoutUser(token)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            localStorage.removeItem("token")
-            localStorage.removeItem("user")
-            setToken(null)
-            navigate("/")
-        }
-    }
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/");
+    };
 
     return (
-        <header className="bg-white shadow p-4">
-            <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <header className="border-b border-gray-100 bg-white">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
                 <Link to="/" className="text-xl font-bold text-[#00bba7]">
                     Wallaclone
                 </Link>
 
-                <nav className="flex items-center gap-4 text-sm font-medium">
-                    <Link to="/" className="text-gray-700 hover:text-[#00bba7]">
-                        Anuncios
-                    </Link>
-
+                <nav className="flex items-center gap-4 text-sm font-semibold">
                     {token ? (
                         <>
                             <Link
@@ -43,6 +25,13 @@ function Header() {
                                 className="rounded-md bg-[#00bba7] px-4 py-2 text-white hover:bg-[#009689]"
                             >
                                 Crear anuncio
+                            </Link>
+
+                            <Link
+                                to="/account"
+                                className="rounded-md bg-[#00bba7] px-4 py-2 text-white hover:bg-[#009689]"
+                            >
+                                Mi cuenta
                             </Link>
 
                             <button
@@ -61,7 +50,7 @@ function Header() {
                 </nav>
             </div>
         </header>
-    )
+    );
 }
 
-export default Header
+export default Header;
