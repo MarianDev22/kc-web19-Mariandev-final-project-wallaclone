@@ -393,9 +393,6 @@ function CreateAdvertPage() {
                                 <p className="mt-2 text-sm text-red-600">{errors.image}</p>
                             )}
                         </div>
-                        {errors.image && (
-                            <p className="mt-1 text-xs text-red-500">{errors.image}</p>
-                        )}
                     </div>
 
                     <div className="mb-6">
